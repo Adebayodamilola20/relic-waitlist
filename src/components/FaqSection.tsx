@@ -20,6 +20,10 @@ const FAQS = [
     a: "Our private alpha is currently rolling out to early waitlist users in batches. We plan to launch our open beta program in Q3 2026, which will introduce full collaborative agent standups and direct GitHub workspace syncing."
   },
   {
+    q: "Does RELIC integrate with GitHub?",
+    a: "Yes. RELIC features a GitHub-Native Workflow. Founders and developers can create repositories, open pull requests, review code, generate commits, track issues, and sync documentation — all directly from the platform. This GitHub integration makes the workflow feel real and production-ready, not theoretical. People trust GitHub, and RELIC builds on that trust."
+  },
+  {
     q: "How does the waitlist work?",
     a: "By submitting your email, you secure a position in our onboarding queue. We approve builders in batches based on registration timing. You will receive an automated onboarding link with setup documentation as soon as your batch is cleared for sandbox access."
   }

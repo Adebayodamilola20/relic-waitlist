@@ -74,9 +74,6 @@ export default function FutureVision() {
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 md:mb-24">
-          <span className="text-brand-teal text-xs font-bold uppercase tracking-widest px-3 py-1 bg-teal-50 border border-teal-100 rounded-full inline-block mb-3">
-            Long Term Vision
-          </span>
           <h2 className="font-display font-black text-3xl sm:text-4xl md:text-5xl text-slate-900 tracking-tight mb-4">
             The Future of Startup Creation.
           </h2>
@@ -95,8 +92,8 @@ export default function FutureVision() {
                 className="bg-white rounded-2xl p-6 border border-slate-200/60 shadow-sm flex flex-col justify-between hover:border-brand-teal/30 hover:shadow-md transition-all group"
               >
                 <div>
-                  <div className="w-10 h-10 rounded-lg bg-slate-900 flex items-center justify-center text-white mb-4 group-hover:bg-brand-teal transition-colors">
-                    <Icon className="w-5 h-5 text-brand-teal group-hover:text-white transition-colors" />
+                  <div className="w-10 h-10 rounded-lg bg-black flex items-center justify-center mb-4 group-hover:ring-1 group-hover:ring-brand-teal/30 transition-all">
+                    <Icon className="w-5 h-5 text-white" />
                   </div>
                   <h3 className="font-display font-extrabold text-slate-850 text-base mb-2 group-hover:text-slate-900 transition-colors">
                     {card.title}

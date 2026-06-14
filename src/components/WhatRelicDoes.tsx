@@ -16,7 +16,7 @@ const CAPABILITIES = [
     desc: "Analyzes business models, evaluates technology stacks (e.g. Postgres vs MongoDB), and translates user-described requirements into standard engineering specifications.",
     visual: (
       <div className="mt-4 p-2 bg-slate-900 rounded-lg font-mono text-[9px] text-slate-300 border border-slate-800">
-        <div className="text-teal-400">relic-advisor --analyze "uber for boats"</div>
+        <div className="text-brand-teal">relic-advisor --analyze "uber for boats"</div>
         <div className="text-slate-500 mt-1">&gt; Selected Stack: Next.js + Supabase + Webhooks</div>
         <div className="text-slate-500">&gt; Scalability assessment: High concurrency potential.</div>
       </div>
@@ -31,7 +31,7 @@ const CAPABILITIES = [
       <div className="mt-4 flex items-center justify-around bg-slate-50 rounded-lg p-2.5 border border-slate-100">
         <div className="px-2 py-1 bg-white border border-slate-200 rounded text-[9px] font-mono shadow-sm">Client App</div>
         <span className="text-[10px] text-slate-300">➔</span>
-        <div className="px-2 py-1 bg-teal-50 border border-teal-200 text-teal-800 rounded text-[9px] font-mono font-semibold shadow-sm">API Gateway</div>
+        <div className="px-2 py-1 bg-teal-50 border border-brand-teal/40 text-slate-800 rounded text-[9px] font-mono font-semibold shadow-sm">API Gateway</div>
         <span className="text-[10px] text-slate-300">➔</span>
         <div className="px-2 py-1 bg-white border border-slate-200 rounded text-[9px] font-mono shadow-sm">Database</div>
       </div>
@@ -46,7 +46,7 @@ const CAPABILITIES = [
       <div className="mt-4 space-y-1.5">
         <div className="flex items-center justify-between text-[10px] bg-white border border-slate-100 p-1.5 rounded shadow-sm">
           <span className="text-slate-700 truncate font-semibold">1. Authenticate with OAuth</span>
-          <span className="text-teal-600 font-bold">100%</span>
+          <span className="text-brand-teal font-bold">100%</span>
         </div>
         <div className="flex items-center justify-between text-[10px] bg-white border border-slate-100 p-1.5 rounded shadow-sm">
           <span className="text-slate-700 truncate font-semibold">2. Setup Escrow Webhook</span>
@@ -79,7 +79,7 @@ const CAPABILITIES = [
     tag: "Base Foundations",
     desc: "Generates high-performance React client apps, backend routes, schema definitions, and unit test files directly into standard files.",
     visual: (
-      <div className="mt-4 bg-slate-900 rounded-lg p-2.5 font-mono text-[9px] text-teal-400 border border-slate-800 leading-normal max-h-[85px] overflow-hidden">
+      <div className="mt-4 bg-slate-900 rounded-lg p-2.5 font-mono text-[9px] text-brand-teal border border-slate-800 leading-normal max-h-[85px] overflow-hidden">
         <span className="text-slate-400">const</span> <span className="text-slate-300">UserSchema</span> = <span className="text-slate-400">new</span> <span className="text-amber-300">Schema</span>({`{`}
         <div className="pl-3">email: {`{ type: String, unique: true },`}</div>
         <div className="pl-3">createdAt: Date</div>
@@ -118,9 +118,6 @@ export default function WhatRelicDoes() {
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 md:mb-24">
-          <span className="text-brand-teal text-xs font-bold uppercase tracking-widest px-3 py-1 bg-teal-50 border border-teal-100 rounded-full inline-block mb-3">
-            Core Modules
-          </span>
           <h2 className="font-display font-black text-3xl sm:text-4xl md:text-5xl text-slate-900 tracking-tight mb-4">
             A CTO Engine in a Single Prompt.
           </h2>
@@ -140,7 +137,7 @@ export default function WhatRelicDoes() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.5, delay: idx * 0.08 }}
-                className="group rounded-2xl border border-slate-200/75 bg-slate-50/60 p-6 flex flex-col justify-between hover:bg-white hover:border-brand-teal/30 hover:shadow-[0_15px_30px_rgba(20,184,166,0.06)] transition-all duration-300 relative overflow-hidden"
+                className="group rounded-2xl border border-slate-200/75 bg-slate-50/60 p-6 flex flex-col justify-between hover:bg-white hover:border-brand-teal/30 hover:shadow-[0_15px_30px_rgba(50,187,120,0.10)] transition-all duration-300 relative overflow-hidden"
               >
                 
                 {/* Micro corner hover glow */}
@@ -148,14 +145,11 @@ export default function WhatRelicDoes() {
 
                 <div>
                   {/* Icon */}
-                  <div className="w-12 h-12 rounded-xl bg-slate-900 flex items-center justify-center text-white mb-5 shadow-sm group-hover:bg-brand-teal transition-colors duration-300">
-                    <Icon className="w-6 h-6 text-brand-teal group-hover:text-white transition-colors duration-300" />
+                  <div className="w-12 h-12 rounded-xl bg-black flex items-center justify-center mb-5 shadow-sm group-hover:ring-1 group-hover:ring-brand-teal/30 transition-all duration-300">
+                    <Icon className="w-6 h-6 text-white" />
                   </div>
 
-                  {/* Title & Tag */}
-                  <span className="text-[10px] text-slate-400 uppercase tracking-widest font-bold block mb-1">
-                    {cap.tag}
-                  </span>
+                  {/* Title */}
                   <h3 className="font-display font-bold text-slate-900 text-lg mb-3">
                     {cap.title}
                   </h3>

@@ -3,8 +3,8 @@
 @import "tailwindcss";
 
 @theme {
-  --color-brand-teal: #14B8A6;
-  --color-brand-teal-glow: #2DD4BF;
+  --color-brand-teal: #32BB78;
+  --color-brand-teal-glow: #63D99A;
   --color-brand-dark: #020617;
   --color-brand-card: #0F172A;
   --color-brand-text: #F8FAFC;
@@ -65,7 +65,7 @@
   position: absolute;
   inset: -1px;
   border-radius: inherit;
-  background: linear-gradient(135deg, rgba(20, 184, 166, 0.1), rgba(45, 212, 191, 0.1));
+  background: linear-gradient(135deg, rgba(50, 187, 120, 0.12), rgba(99, 217, 154, 0.12));
   opacity: 0;
   z-index: -1;
   transition: opacity 0.3s ease;
@@ -77,7 +77,7 @@
 
 /* Glowing background bubbles */
 .bg-glow-teal {
-  background: radial-gradient(circle, rgba(45, 212, 191, 0.15) 0%, rgba(20, 184, 166, 0) 70%);
+  background: radial-gradient(circle, rgba(99, 217, 154, 0.18) 0%, rgba(50, 187, 120, 0) 70%);
 }
 
 .bg-glow-cyan {

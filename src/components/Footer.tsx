@@ -1,4 +1,4 @@
-import { Sparkles, MessageSquare } from 'lucide-react';
+import { MessageSquare } from 'lucide-react';
 
 export default function Footer() {
   const handleScrollTo = (id: string) => {
@@ -9,7 +9,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-slate-900 text-slate-400 py-16 border-t border-slate-800">
+    <footer className="bg-black text-white py-16 border-t border-black">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Upper Grid Split */}
@@ -17,15 +17,12 @@ export default function Footer() {
           
           {/* Logo & Tagline */}
           <div className="md:col-span-2 flex flex-col gap-4">
-            <div className="flex items-center gap-2 cursor-pointer" onClick={() => handleScrollTo('hero')}>
-              <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center">
-                <Sparkles className="w-4 h-4 text-brand-teal" />
-              </div>
-              <span className="font-display font-black text-lg text-white tracking-tight">
+            <div className="cursor-pointer" onClick={() => handleScrollTo('hero')}>
+              <span className="font-display font-black text-2xl text-white tracking-tight leading-none">
                 RELIC
               </span>
             </div>
-            <p className="text-xs text-slate-400 max-w-sm leading-relaxed">
+            <p className="text-xs text-white/75 max-w-sm leading-relaxed">
               Building the future of startup creation. RELIC serves as the autonomous AI CTO transforming business concepts into operational ecosystems.
             </p>
           </div>
@@ -100,7 +97,7 @@ export default function Footer() {
         </div>
 
         {/* Lower copyright bar */}
-        <div className="border-t border-slate-800 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+        <div className="border-t border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/70">
           <span>&copy; {new Date().getFullYear()} RELIC Inc. All rights reserved. Deployed at the edge.</span>
           
           {/* Social Icons */}

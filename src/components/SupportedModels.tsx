@@ -29,9 +29,6 @@ export default function SupportedModels() {
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 md:mb-24">
-          <span className="text-brand-teal text-xs font-bold uppercase tracking-widest px-3 py-1 bg-teal-50 border border-teal-100 rounded-full inline-block mb-3">
-            Developer Flex
-          </span>
           <h2 className="font-display font-black text-3xl sm:text-4xl md:text-5xl text-slate-900 tracking-tight mb-4">
             Bring Your Own Intelligence.
           </h2>
@@ -47,17 +44,14 @@ export default function SupportedModels() {
           <div className="rounded-2xl border border-slate-200/80 bg-slate-50/50 p-6 md:p-8">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-2">
-                <div className="w-9 h-9 rounded-lg bg-slate-900 flex items-center justify-center text-white">
-                  <Cpu className="w-5 h-5 text-brand-teal" />
+                <div className="w-9 h-9 rounded-lg bg-black flex items-center justify-center">
+                  <Cpu className="w-5 h-5 text-white" />
                 </div>
                 <div>
                   <h3 className="font-display font-extrabold text-slate-800 text-base">Local AI Models</h3>
                   <p className="text-[11px] text-slate-400">Run completely free offline on your hardware</p>
                 </div>
               </div>
-              <span className="text-[10px] bg-slate-100 border border-slate-200 text-slate-600 font-bold px-2 py-0.5 rounded-full uppercase">
-                Privacy First
-              </span>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -69,7 +63,7 @@ export default function SupportedModels() {
                   <div>
                     <div className="flex items-center justify-between mb-1">
                       <span className="text-xs font-bold text-slate-850 font-display">{model.name}</span>
-                      <span className="text-[9px] bg-teal-50 text-teal-700 px-1.5 py-0.5 rounded-full font-mono">{model.type}</span>
+                      <span className="text-[9px] bg-teal-50 text-slate-700 px-1.5 py-0.5 rounded-full font-mono">{model.type}</span>
                     </div>
                     <p className="text-[10px] text-slate-500 leading-normal mb-3">{model.desc}</p>
                   </div>
@@ -86,17 +80,14 @@ export default function SupportedModels() {
           <div className="rounded-2xl border border-slate-200/80 bg-slate-50/50 p-6 md:p-8">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-2">
-                <div className="w-9 h-9 rounded-lg bg-slate-900 flex items-center justify-center text-white">
-                  <Cloud className="w-5 h-5 text-brand-teal" />
+                <div className="w-9 h-9 rounded-lg bg-black flex items-center justify-center">
+                  <Cloud className="w-5 h-5 text-white" />
                 </div>
                 <div>
                   <h3 className="font-display font-extrabold text-slate-800 text-base">Cloud AI Providers</h3>
                   <p className="text-[11px] text-slate-400">Connect to high-performance inference APIs</p>
                 </div>
               </div>
-              <span className="text-[10px] bg-teal-50 border border-teal-100 text-brand-teal font-bold px-2 py-0.5 rounded-full uppercase">
-                API Linked
-              </span>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

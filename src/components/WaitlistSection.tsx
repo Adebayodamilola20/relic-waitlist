@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, CheckCircle2, Loader2, ArrowRight } from 'lucide-react';
+import { isSupabaseConfigured, supabase } from '../lib/supabase';
 
 export default function WaitlistSection() {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
+  const [submittedEmail, setSubmittedEmail] = useState('');
+  const [emailSent, setEmailSent] = useState(false);
   const [counter, setCounter] = useState(1247);
 
   // Dynamic incrementing waitlist counter (simulation)
@@ -20,26 +23,58 @@ export default function WaitlistSection() {
     return () => clearInterval(interval);
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage('');
+    setEmailSent(false);
     
-    if (!fullName.trim()) {
+    const trimmedName = fullName.trim();
+    const trimmedEmail = email.trim().toLowerCase();
+
+    if (!trimmedName) {
       setErrorMessage('Please enter your full name.');
       return;
     }
-    if (!email.trim() || !/\S+@\S+\.\S+/.test(email)) {
+    if (!trimmedEmail || !/\S+@\S+\.\S+/.test(trimmedEmail)) {
       setErrorMessage('Please enter a valid email address.');
       return;
     }
 
     setStatus('loading');
 
-    // Simulate API registration request
-    setTimeout(() => {
+    try {
+      if (isSupabaseConfigured && supabase) {
+        const { error: insertError } = await supabase
+          .from('waitlist')
+          .insert({
+            full_name: trimmedName,
+            email: trimmedEmail,
+            source: 'website',
+            status: 'waiting',
+          });
+
+        if (insertError && insertError.code !== '23505') {
+          throw insertError;
+        }
+
+        const { error: emailError } = await supabase.functions.invoke('send-waitlist-email', {
+          body: {
+            fullName: trimmedName,
+            email: trimmedEmail,
+          },
+        });
+
+        setEmailSent(!emailError);
+      }
+
+      setSubmittedEmail(trimmedEmail);
       setStatus('success');
       setCounter(prev => prev + 1);
-    }, 1500);
+    } catch (error) {
+      console.error('Waitlist signup failed:', error);
+      setErrorMessage('We could not reserve your spot right now. Please try again.');
+      setStatus('idle');
+    }
   };
 
   return (
@@ -51,10 +86,10 @@ export default function WaitlistSection() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative w-full">
         
         {/* Main card */}
-        <div className="glass-panel rounded-3xl border border-slate-200/80 p-8 md:p-14 shadow-[0_20px_50px_rgba(20,184,166,0.05)] text-center relative overflow-hidden">
+        <div className="glass-panel rounded-3xl border border-slate-200/80 p-8 md:p-14 shadow-[0_20px_50px_rgba(50,187,120,0.10)] text-center relative overflow-hidden">
           
           {/* Subtle top decoration badge */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-gradient-to-r from-brand-teal to-teal-500 h-1.5 w-40 rounded-b-full"></div>
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-brand-teal h-1.5 w-40 rounded-b-full"></div>
 
           <AnimatePresence mode="wait">
             {status !== 'success' ? (
@@ -65,17 +100,6 @@ export default function WaitlistSection() {
                 exit={{ opacity: 0, y: -15 }}
                 transition={{ duration: 0.4 }}
               >
-                {/* Live Counter Badge */}
-                <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-slate-50 border border-slate-200 rounded-full mb-6 shadow-sm">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-teal"></span>
-                  </span>
-                  <span className="font-mono text-xs font-bold text-slate-700">
-                    {counter.toLocaleString()} Builders Waiting
-                  </span>
-                </div>
-
                 {/* Headlines */}
                 <h2 className="font-display font-black text-3xl sm:text-4xl md:text-5xl text-slate-900 tracking-tight mb-4">
                   Be Among the First Builders.
@@ -119,7 +143,7 @@ export default function WaitlistSection() {
                   <button
                     type="submit"
                     disabled={status === 'loading'}
-                    className="w-full flex items-center justify-center gap-2 bg-slate-900 text-white font-bold text-sm px-6 py-3.5 rounded-xl hover:bg-slate-850 hover:shadow-[0_10px_20px_rgba(15,23,42,0.15)] transition-all cursor-pointer disabled:opacity-70 active:scale-98"
+                    className="w-full flex items-center justify-center gap-2 bg-black text-white font-bold text-sm px-6 py-3.5 rounded-xl hover:bg-black/90 hover:shadow-[0_10px_20px_rgba(0,0,0,0.15)] transition-all cursor-pointer disabled:opacity-70 active:scale-98"
                   >
                     {status === 'loading' ? (
                       <>
@@ -148,7 +172,7 @@ export default function WaitlistSection() {
                 transition={{ duration: 0.5 }}
                 className="py-8 flex flex-col items-center"
               >
-                <div className="w-16 h-16 rounded-2xl bg-teal-50 border border-teal-100 flex items-center justify-center text-brand-teal mb-6 shadow-sm">
+                <div className="w-16 h-16 rounded-2xl bg-black border border-slate-200 flex items-center justify-center text-white mb-6 shadow-sm">
                   <CheckCircle2 className="w-8 h-8" />
                 </div>
 
@@ -157,10 +181,16 @@ export default function WaitlistSection() {
                 </h3>
                 
                 <p className="text-slate-500 text-sm max-w-sm mb-6 leading-relaxed">
-                  Thank you, <span className="font-bold text-slate-800">{fullName}</span>! Your spot has been secured. We have sent a confirmation details note to <span className="font-bold text-slate-800">{email}</span>.
+                  Thank you, <span className="font-bold text-slate-800">{fullName}</span>! Your spot has been secured for <span className="font-bold text-slate-800">{submittedEmail}</span>.
                 </p>
 
-                <div className="bg-teal-50/50 border border-teal-100/60 rounded-xl px-5 py-3 text-[11px] text-teal-800 font-mono flex items-center gap-2">
+                <p className="text-xs text-slate-500 max-w-sm mb-6 leading-relaxed">
+                  {emailSent
+                    ? 'A confirmation email has been sent to your inbox.'
+                    : 'A confirmation email is drafted for this address and will send as soon as email delivery is configured.'}
+                </p>
+
+                <div className="bg-teal-50/50 border border-brand-teal/40 rounded-xl px-5 py-3 text-[11px] text-slate-800 font-mono flex items-center gap-2">
                   <Sparkles className="w-4 h-4 text-brand-teal animate-pulse" />
                   <span>Your Queue Position: #{(counter + 248).toLocaleString()}</span>
                 </div>
@@ -170,6 +200,8 @@ export default function WaitlistSection() {
                     setStatus('idle');
                     setFullName('');
                     setEmail('');
+                    setSubmittedEmail('');
+                    setEmailSent(false);
                   }}
                   className="mt-8 text-xs font-semibold text-slate-550 hover:text-slate-800 underline"
                 >

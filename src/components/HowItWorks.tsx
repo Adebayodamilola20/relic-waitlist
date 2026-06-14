@@ -39,9 +39,6 @@ export default function HowItWorks() {
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 md:mb-24">
-          <span className="text-brand-teal text-xs font-bold uppercase tracking-widest px-3 py-1 bg-teal-50 border border-teal-100 rounded-full inline-block mb-3">
-            Workflow Execution
-          </span>
           <h2 className="font-display font-black text-3xl sm:text-4xl md:text-5xl text-slate-900 tracking-tight mb-4">
             How RELIC Works.
           </h2>
@@ -84,8 +81,8 @@ export default function HowItWorks() {
                   </div>
 
                   {/* Middle Dot / Circle */}
-                  <div className="absolute left-[50%] translate-x-[-50%] w-10 h-10 rounded-full bg-slate-900 border-4 border-white flex items-center justify-center text-brand-teal shadow-md z-10 hidden md:flex order-1">
-                    <StepIcon className="w-4 h-4" />
+                  <div className="absolute left-[50%] translate-x-[-50%] w-10 h-10 rounded-full bg-black border-4 border-white flex items-center justify-center text-brand-teal shadow-md z-10 hidden md:flex order-1">
+                    <StepIcon className="w-4 h-4 text-white" />
                   </div>
 
                   {/* Right Side Content (Desktop) */}
@@ -109,7 +106,7 @@ export default function HowItWorks() {
                     {/* Mobile fallback rendering for all steps in grid */}
                     <div className="block md:hidden bg-white rounded-2xl p-6 border border-slate-250/70 shadow-sm w-full max-w-md my-4">
                       <div className="flex items-center gap-3 mb-2 justify-center">
-                        <div className="w-8 h-8 rounded-lg bg-slate-900 flex items-center justify-center text-brand-teal">
+                        <div className="w-8 h-8 rounded-lg bg-black flex items-center justify-center text-white">
                           <StepIcon className="w-4 h-4" />
                         </div>
                         <span className="font-display font-black text-2xl text-brand-teal/20">{step.step}</span>

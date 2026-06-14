@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Sparkles, Menu, X, ArrowRight } from 'lucide-react';
+import { Menu, X, ArrowRight } from 'lucide-react';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -31,15 +31,11 @@ export default function Navbar() {
         <div className="flex items-center justify-between">
           
           {/* Logo */}
-          <div 
+          <div
             onClick={() => handleScrollTo('hero')}
-            className="flex items-center gap-2 cursor-pointer group"
+            className="cursor-pointer group"
           >
-            <div className="w-9 h-9 rounded-xl bg-slate-900 flex items-center justify-center relative overflow-hidden group-hover:scale-105 transition-transform duration-300">
-              <Sparkles className="w-5 h-5 text-brand-teal" />
-              <div className="absolute inset-0 bg-gradient-to-tr from-brand-teal/0 via-brand-teal/10 to-brand-teal-glow/20"></div>
-            </div>
-            <span className="font-display font-black text-xl tracking-tight text-slate-900">
+            <span className="font-display font-black text-2xl sm:text-3xl tracking-tight text-slate-950 leading-none">
               RELIC
             </span>
           </div>
@@ -88,7 +84,7 @@ export default function Navbar() {
           <div className="hidden md:block">
             <button
               onClick={() => handleScrollTo('waitlist')}
-              className="flex items-center gap-1 bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs px-4 py-2 rounded-lg hover:shadow-md transition-all group active:scale-95"
+              className="flex items-center gap-1 bg-black hover:bg-black/90 text-white font-semibold text-xs px-4 py-2 rounded-lg hover:shadow-md transition-all group active:scale-95"
             >
               Join Waitlist
               <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
@@ -150,7 +146,7 @@ export default function Navbar() {
             </button>
             <button
               onClick={() => handleScrollTo('waitlist')}
-              className="flex items-center justify-center gap-1.5 w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-2.5 rounded-lg shadow mt-2"
+              className="flex items-center justify-center gap-1.5 w-full bg-black hover:bg-black/90 text-white font-semibold py-2.5 rounded-lg shadow mt-2"
             >
               Join Waitlist
               <ArrowRight className="w-4 h-4" />

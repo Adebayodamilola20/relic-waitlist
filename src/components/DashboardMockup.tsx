@@ -137,11 +137,11 @@ export default function DashboardMockup() {
 
   const startSimulation = () => {
     if (isSimulating) return;
+    setActiveTab('plan');
     setIsSimulating(true);
     setDeployLogs([]);
     setCheckedPlanSteps([false, false, false, false]);
     setSimStep('planning');
-    setActiveTab('plan');
   };
 
   // Simulation runner effect
@@ -151,13 +151,21 @@ export default function DashboardMockup() {
     if (simStep === 'planning') {
       let currentStep = 0;
       const interval = setInterval(() => {
+        if (currentStep >= presetData.plan.length) {
+          clearInterval(interval);
+          setTimeout(() => {
+            setSimStep('architecture');
+            setActiveTab('arch');
+          }, 1000);
+          return;
+        }
         setCheckedPlanSteps(prev => {
           const next = [...prev];
           next[currentStep] = true;
           return next;
         });
         currentStep++;
-        if (currentStep >= 4) {
+        if (currentStep >= presetData.plan.length) {
           clearInterval(interval);
           setTimeout(() => {
             setSimStep('architecture');
@@ -207,7 +215,14 @@ export default function DashboardMockup() {
       
       let currentLogIdx = 0;
       const interval = setInterval(() => {
-        setDeployLogs(prev => [...prev, logs[currentLogIdx]]);
+        const nextLog = logs[currentLogIdx];
+        if (!nextLog) {
+          clearInterval(interval);
+          setSimStep('done');
+          setIsSimulating(false);
+          return;
+        }
+        setDeployLogs(prev => [...prev, nextLog]);
         currentLogIdx++;
         if (currentLogIdx >= logs.length) {
           clearInterval(interval);
@@ -218,10 +233,10 @@ export default function DashboardMockup() {
       return () => clearInterval(interval);
     }
 
-  }, [isSimulating, simStep]);
+  }, [isSimulating, simStep, presetData.plan.length]);
 
   return (
-    <div className="w-full rounded-2xl border border-slate-200/80 bg-white p-4 shadow-[0_20px_50px_rgba(20,184,166,0.08)] relative overflow-hidden group">
+    <div className="w-full rounded-2xl border border-slate-200/80 bg-white p-4 shadow-[0_20px_50px_rgba(50,187,120,0.12)] relative overflow-hidden group">
       
       {/* Light soft teal glow backing */}
       <div className="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-brand-teal-glow/10 blur-[80px] pointer-events-none group-hover:scale-110 transition-transform duration-700"></div>
@@ -254,7 +269,7 @@ export default function DashboardMockup() {
             onClick={() => !isSimulating && setActiveTab('idea')}
             className={`flex items-center gap-2 px-2.5 py-2 rounded-lg text-xs font-medium transition-all ${
               activeTab === 'idea' 
-                ? 'bg-brand-teal/10 text-brand-teal' 
+                ? 'bg-black text-white' 
                 : 'text-slate-600 hover:bg-slate-50'
             }`}
           >
@@ -266,7 +281,7 @@ export default function DashboardMockup() {
             onClick={() => !isSimulating && setActiveTab('plan')}
             className={`flex items-center gap-2 px-2.5 py-2 rounded-lg text-xs font-medium transition-all ${
               activeTab === 'plan' 
-                ? 'bg-brand-teal/10 text-brand-teal' 
+                ? 'bg-black text-white' 
                 : 'text-slate-600 hover:bg-slate-50'
             }`}
           >
@@ -278,7 +293,7 @@ export default function DashboardMockup() {
             onClick={() => !isSimulating && setActiveTab('arch')}
             className={`flex items-center gap-2 px-2.5 py-2 rounded-lg text-xs font-medium transition-all ${
               activeTab === 'arch' 
-                ? 'bg-brand-teal/10 text-brand-teal' 
+                ? 'bg-black text-white' 
                 : 'text-slate-600 hover:bg-slate-50'
             }`}
           >
@@ -290,7 +305,7 @@ export default function DashboardMockup() {
             onClick={() => !isSimulating && setActiveTab('agents')}
             className={`flex items-center gap-2 px-2.5 py-2 rounded-lg text-xs font-medium transition-all ${
               activeTab === 'agents' 
-                ? 'bg-brand-teal/10 text-brand-teal' 
+                ? 'bg-black text-white' 
                 : 'text-slate-600 hover:bg-slate-50'
             }`}
           >
@@ -302,7 +317,7 @@ export default function DashboardMockup() {
             onClick={() => !isSimulating && setActiveTab('code')}
             className={`flex items-center gap-2 px-2.5 py-2 rounded-lg text-xs font-medium transition-all ${
               activeTab === 'code' 
-                ? 'bg-brand-teal/10 text-brand-teal' 
+                ? 'bg-black text-white' 
                 : 'text-slate-600 hover:bg-slate-50'
             }`}
           >
@@ -314,7 +329,7 @@ export default function DashboardMockup() {
             onClick={() => !isSimulating && setActiveTab('deploy')}
             className={`flex items-center gap-2 px-2.5 py-2 rounded-lg text-xs font-medium transition-all ${
               activeTab === 'deploy' 
-                ? 'bg-brand-teal/10 text-brand-teal' 
+                ? 'bg-black text-white' 
                 : 'text-slate-600 hover:bg-slate-50'
             }`}
           >
@@ -377,7 +392,7 @@ export default function DashboardMockup() {
                 </div>
 
                 <div className="mt-4 p-3 bg-teal-50/50 border border-teal-100 rounded-lg">
-                  <div className="text-[10px] text-teal-800 font-semibold mb-0.5">
+                  <div className="text-[10px] text-slate-800 font-semibold mb-0.5">
                     {presetData.title}
                   </div>
                   <div className="text-[11px] text-slate-600">
@@ -390,10 +405,10 @@ export default function DashboardMockup() {
                 <button
                   onClick={startSimulation}
                   disabled={isSimulating}
-                  className="flex items-center gap-1.5 bg-brand-teal text-white px-3 py-1.5 rounded-lg text-xs font-semibold hover:bg-teal-600 shadow-sm transition-all hover:translate-x-0.5"
+                  className="flex items-center gap-1.5 bg-black text-white px-3 py-1.5 rounded-lg text-xs font-semibold hover:bg-black/90 shadow-sm transition-all hover:translate-x-0.5"
                 >
                   {isSimulating ? 'Generating...' : 'Analyze Idea'} 
-                  <ArrowRight className="w-3.5 h-3.5" />
+                  <ArrowRight className="w-3.5 h-3.5 text-white" />
                 </button>
               </div>
             </div>
@@ -562,7 +577,7 @@ export default function DashboardMockup() {
                   Production-grade boilerplate code engineered with security best practices.
                 </p>
 
-                <div className="bg-slate-900 rounded-lg p-3 font-mono text-[9px] text-teal-400 overflow-x-auto max-h-[220px] shadow-inner border border-slate-800 leading-normal">
+                <div className="bg-slate-900 rounded-lg p-3 font-mono text-[9px] text-brand-teal overflow-x-auto max-h-[220px] shadow-inner border border-slate-800 leading-normal">
                   <pre className="text-left select-all">{presetData.code}</pre>
                 </div>
               </div>
@@ -613,7 +628,7 @@ export default function DashboardMockup() {
                   </span>
                 </div>
                 {simStep === 'done' && (
-                  <div className="text-[10px] text-brand-teal font-semibold font-mono bg-teal-50 border border-teal-100 px-2 py-0.5 rounded animate-bounce">
+                  <div className="text-[10px] text-slate-800 font-semibold font-mono bg-teal-50 border border-brand-teal/40 px-2 py-0.5 rounded animate-bounce">
                     Live Demo Deployed!
                   </div>
                 )}
@@ -634,9 +649,9 @@ export default function DashboardMockup() {
         <button
           onClick={startSimulation}
           disabled={isSimulating}
-          className="flex items-center gap-1.5 bg-slate-900 text-white hover:bg-slate-800 disabled:opacity-50 text-[11px] font-bold px-3 py-1.5 rounded-lg shadow-sm transition-all"
+          className="flex items-center gap-1.5 bg-black text-white hover:bg-black/90 disabled:opacity-50 text-[11px] font-bold px-3 py-1.5 rounded-lg shadow-sm transition-all"
         >
-          <Play className="w-3 h-3 text-brand-teal" />
+          <Play className="w-3 h-3 text-white" />
           Run RELIC Demo
         </button>
       </div>

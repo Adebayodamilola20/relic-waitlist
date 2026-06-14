@@ -57,7 +57,7 @@ export default function ProblemSection() {
     <section id="problems" className="py-20 md:py-28 bg-slate-50 relative overflow-hidden">
       
       {/* Background soft lighting */}
-      <div className="absolute top-10 right-10 w-[300px] h-[300px] bg-rose-500/5 rounded-full blur-[100px] pointer-events-none"></div>
+      <div className="absolute top-10 right-10 w-[300px] h-[300px] bg-brand-teal/5 rounded-full blur-[100px] pointer-events-none"></div>
       <div className="absolute bottom-10 left-10 w-[300px] h-[300px] bg-brand-teal/5 rounded-full blur-[100px] pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
@@ -65,7 +65,7 @@ export default function ProblemSection() {
         {/* Section Heading */}
         <div className="text-center max-w-3xl mx-auto mb-16 md:mb-24">
           <h2 className="font-display font-black text-3xl sm:text-4xl md:text-5xl text-slate-900 tracking-tight mb-4">
-            Building a Startup Is Still <span className="text-rose-500">Too Hard.</span>
+            Building a Startup Is Still <span className="text-brand-teal">Too Hard.</span>
           </h2>
           <p className="text-slate-500 text-sm sm:text-base md:text-lg max-w-xl mx-auto">
             Traditional product development is bogged down by high friction, fragmented workflows, and technical bottlenecks. Here is why the old way is failing:
@@ -93,11 +93,11 @@ export default function ProblemSection() {
                   transition={{ duration: 0.5, delay: idx * 0.1 }}
                   className="bg-white rounded-xl p-5 border border-slate-200/60 shadow-sm flex items-start gap-4 hover:border-rose-200/80 transition-all hover:shadow-[0_4px_20px_rgba(239,68,68,0.02)]"
                 >
-                  <div className="w-10 h-10 rounded-lg bg-rose-50 flex items-center justify-center shrink-0">
-                    <IconComp className="w-5 h-5 text-rose-500" />
+                  <div className="w-10 h-10 rounded-lg bg-black flex items-center justify-center shrink-0">
+                    <IconComp className="w-5 h-5 text-white" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-slate-800 text-sm mb-1 flex items-center gap-2">
+                    <h4 className="font-bold text-slate-800 text-sm mb-1">
                       {prob.title}
                     </h4>
                     <p className="text-xs text-slate-500 leading-relaxed">{prob.desc}</p>
@@ -110,7 +110,9 @@ export default function ProblemSection() {
           {/* Solution Cards Column */}
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-2 mb-2 px-1">
-              <span className="w-1.5 h-6 bg-brand-teal rounded-full"></span>
+              <div className="w-6 h-6 rounded-full bg-black flex items-center justify-center">
+                <CheckCircle className="w-3.5 h-3.5 text-white" />
+              </div>
               <h3 className="text-lg font-bold text-slate-800">The Solution: RELIC Ecosystem</h3>
             </div>
 
@@ -122,19 +124,14 @@ export default function ProblemSection() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, margin: "-100px" }}
                   transition={{ duration: 0.5, delay: idx * 0.1 }}
-                  className="bg-white rounded-xl p-5 border border-teal-100/80 shadow-[0_4px_20px_rgba(20,184,166,0.03)] flex items-start gap-4 hover:border-brand-teal/40 transition-all"
+                  className="bg-white rounded-xl p-5 border border-teal-100/80 shadow-[0_4px_20px_rgba(50,187,120,0.08)] flex items-start gap-4 hover:border-brand-teal/40 transition-all"
                 >
-                  <div className="w-10 h-10 rounded-lg bg-teal-50 flex items-center justify-center shrink-0">
-                    <CheckCircle className="w-5 h-5 text-brand-teal" />
+                  <div className="w-10 h-10 rounded-lg bg-black flex items-center justify-center shrink-0">
+                    <CheckCircle className="w-5 h-5 text-white" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-slate-800 text-sm mb-1 flex items-center gap-2">
+                    <h4 className="font-bold text-slate-800 text-sm mb-1">
                       {sol.title}
-                      {idx === 0 && (
-                        <span className="bg-brand-teal/10 text-brand-teal text-[9px] font-bold px-1.5 py-0.5 rounded uppercase">
-                          Featured
-                        </span>
-                      )}
                     </h4>
                     <p className="text-xs text-slate-500 leading-relaxed">{sol.desc}</p>
                   </div>

@@ -1,54 +1,54 @@
 import { motion } from 'framer-motion';
-import { CheckCircle, Layers, Hourglass, Users, DollarSign, BrainCircuit } from 'lucide-react';
+import { CheckCircle, Hourglass, Users, BrainCircuit, Factory, Database } from 'lucide-react';
 
 const PROBLEMS = [
   {
-    icon: Layers,
-    title: "Too Many Disconnected Tools",
-    desc: "Switching between 10+ different AI helpers, chats, and task trackers, leading to lost context."
+    icon: Factory,
+    title: "Building a Company Is Fragmented",
+    desc: "Founders juggle strategy, product, engineering, marketing, support, and ops across disconnected tools and teams."
   },
   {
     icon: Users,
-    title: "No Technical Co-Founder",
-    desc: "Struggling to make architectural decisions, evaluate trade-offs, or lead development alone."
-  },
-  {
-    icon: DollarSign,
-    title: "Expensive Developers",
-    desc: "Paying tens of thousands of dollars to agencies or contractors before validating product market fit."
-  },
-  {
-    icon: Hourglass,
-    title: "Slow & Chaotic Execution",
-    desc: "Weeks wasted writing boilerplates, setting up pipelines, and doing configuration instead of building features."
+    title: "No Complete Team",
+    desc: "Early-stage founders lack a CTO, marketer, ops lead, support agent, and analyst — hiring each costs months and capital."
   },
   {
     icon: BrainCircuit,
-    title: "Scattered AI Workflows",
-    desc: "Copy-pasting prompts back and forth without unified version tracking or source code integration."
+    title: "AI Tools Don't Remember",
+    desc: "Every chat session starts from zero. No context, no history, no organizational memory across projects or decisions."
+  },
+  {
+    icon: Hourglass,
+    title: "Execution Takes Too Long",
+    desc: "Months spent on setup, scaffolding, hiring, and coordination before a single customer sees value."
+  },
+  {
+    icon: Database,
+    title: "No Unified Intelligence",
+    desc: "Business knowledge lives in scattered docs, tickets, and heads — not in a system that reasons and acts on it."
   }
 ];
 
 const SOLUTIONS = [
   {
-    title: "All-in-One Engine",
-    desc: "Planning, database schemas, code, and deployment scripts are generated under a single context."
+    title: "AI Startup Operating System",
+    desc: "One platform that plans, builds, operates, and scales your business — replacing fragmented toolchains."
   },
   {
-    title: "Autonomous AI CTO",
-    desc: "An on-demand technical advisor assessing scalability, proposing APIs, and designing roadmaps 24/7."
+    title: "Permanent AI Workforce",
+    desc: "Every organization gets a Lead Agent, CTO, Marketing, Analytics, Support, and Ops agents that stay forever."
   },
   {
-    title: "Zero Setup Cost",
-    desc: "Instantly create high-fidelity frontends and backends configured with standard engineering patterns."
+    title: "Persistent Organizational Memory",
+    desc: "Conversations, roadmaps, decisions, architecture, and agent activity remembered indefinitely — pick up months later."
   },
   {
-    title: "Instant Execution",
-    desc: "Go from description to repository and cloud deploy in minutes, not months."
+    title: "Smart Agent Assembly",
+    desc: "Describe your idea. RELIC analyzes industry, complexity, and requirements — then auto-assembles the right AI team."
   },
   {
-    title: "Integrated AI Teams",
-    desc: "A group of collaborative agents (DevOps, QA, Architect) working together on your codebase."
+    title: "Manage From WhatsApp",
+    desc: "Ask your Lead Agent for sales numbers, support tickets, or strategic focus — get organized summaries instantly."
   }
 ];
 
@@ -65,10 +65,10 @@ export default function ProblemSection() {
         {/* Section Heading */}
         <div className="text-center max-w-3xl mx-auto mb-16 md:mb-24">
           <h2 className="font-display font-black text-3xl sm:text-4xl md:text-5xl text-slate-900 tracking-tight mb-4">
-            Building a Startup Is Still <span className="text-brand-teal">Too Hard.</span>
+            Building a Company Is Still <span className="text-brand-teal">Too Fragmented.</span>
           </h2>
           <p className="text-slate-500 text-sm sm:text-base md:text-lg max-w-xl mx-auto">
-            Traditional product development is bogged down by high friction, fragmented workflows, and technical bottlenecks. Here is why the old way is failing:
+            Founders waste months stitching together tools, hiring specialists, and losing context. The old way requires a village — RELIC gives you an AI organization.
           </p>
         </div>
 

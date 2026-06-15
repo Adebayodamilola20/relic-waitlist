@@ -30,7 +30,7 @@ export default function HeroSection() {
               className="font-display font-black text-4xl sm:text-5xl md:text-6xl text-slate-900 tracking-tight leading-none mb-6"
             >
               Build Your Startup <br className="hidden sm:inline" />
-              With an <span className="text-brand-teal">AI CTO.</span>
+              With an <span className="text-brand-teal">AI Startup Operating System.</span>
             </motion.h1>
 
             {/* Subheading */}
@@ -40,7 +40,7 @@ export default function HeroSection() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-base sm:text-lg md:text-xl text-slate-500 max-w-xl mb-10 font-sans leading-relaxed"
             >
-              RELIC transforms ideas into products, plans, database schemas, codebases, and launch-ready systems — all from a single prompt.
+              RELIC gives every founder an AI-powered organization — planning, building, operating, and scaling your business from a single platform.
             </motion.p>
 
             {/* CTAs */}
@@ -74,18 +74,18 @@ export default function HeroSection() {
               className="mt-12 flex items-center gap-6 border-t border-slate-100 pt-8 w-full justify-center lg:justify-start"
             >
               <div>
-                <span className="block font-display font-extrabold text-xl text-slate-800 leading-none">10x</span>
-                <span className="text-[11px] text-slate-400 font-medium tracking-wide uppercase">Development Speed</span>
+                <span className="block font-display font-extrabold text-xl text-slate-800 leading-none">∞</span>
+                <span className="text-[11px] text-slate-400 font-medium tracking-wide uppercase">AI Workforce</span>
               </div>
               <div className="w-[1px] h-8 bg-slate-200"></div>
               <div>
-                <span className="block font-display font-extrabold text-xl text-slate-800 leading-none">0 to 1</span>
-                <span className="text-[11px] text-slate-400 font-medium tracking-wide uppercase">Autonomous Deployment</span>
+                <span className="block font-display font-extrabold text-xl text-slate-800 leading-none">1 Platform</span>
+                <span className="text-[11px] text-slate-400 font-medium tracking-wide uppercase">Plan · Build · Operate</span>
               </div>
               <div className="w-[1px] h-8 bg-slate-200"></div>
               <div>
-                <span className="block font-display font-extrabold text-xl text-slate-800 leading-none">BYOI</span>
-                <span className="text-[11px] text-slate-400 font-medium tracking-wide uppercase">Bring Your Own Models</span>
+                <span className="block font-display font-extrabold text-xl text-slate-800 leading-none">Permanent</span>
+                <span className="text-[11px] text-slate-400 font-medium tracking-wide uppercase">Organizational Memory</span>
               </div>
             </motion.div>
 

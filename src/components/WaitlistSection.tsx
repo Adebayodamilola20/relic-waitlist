@@ -1,7 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, CheckCircle2, Loader2, ArrowRight } from 'lucide-react';
+import { Sparkles, CheckCircle2, Loader2, ArrowRight, Users } from 'lucide-react';
 import { isSupabaseConfigured, supabase } from '../lib/supabase';
+
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+const waitlistBaselineCount = 1207;
+
+type RegisterWaitlistResponse = {
+  ok: boolean;
+  message?: string;
+  email?: string;
+  fullName?: string;
+  queuePosition?: number;
+};
 
 export default function WaitlistSection() {
   const [fullName, setFullName] = useState('');
@@ -10,17 +21,53 @@ export default function WaitlistSection() {
   const [errorMessage, setErrorMessage] = useState('');
   const [submittedEmail, setSubmittedEmail] = useState('');
   const [emailSent, setEmailSent] = useState(false);
-  const [counter, setCounter] = useState(1247);
+  const [queuePosition, setQueuePosition] = useState<number | null>(null);
+  const [currentWaitlistCount, setCurrentWaitlistCount] = useState(waitlistBaselineCount);
 
-  // Dynamic incrementing waitlist counter (simulation)
   useEffect(() => {
-    const interval = setInterval(() => {
-      // 30% chance to increment the builder count by 1 or 2 every few seconds
-      if (Math.random() > 0.6) {
-        setCounter(prev => prev + Math.floor(Math.random() * 2) + 1);
+    const supabaseClient = supabase;
+
+    if (!isSupabaseConfigured || !supabaseClient) {
+      return;
+    }
+
+    let isMounted = true;
+
+    const fetchCurrentCount = async () => {
+      const { data, error } = await supabaseClient
+        .from('waitlist_public_stats')
+        .select('current_count')
+        .eq('id', true)
+        .maybeSingle();
+
+      if (!error && isMounted && typeof data?.current_count === 'number') {
+        setCurrentWaitlistCount(data.current_count);
       }
-    }, 4000);
-    return () => clearInterval(interval);
+    };
+
+    fetchCurrentCount();
+
+    const channel = supabaseClient
+      .channel('waitlist-public-stats')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'waitlist_public_stats' },
+        (payload) => {
+          const updatedCount = payload.new && 'current_count' in payload.new
+            ? Number(payload.new.current_count)
+            : NaN;
+
+          if (Number.isInteger(updatedCount) && updatedCount >= waitlistBaselineCount) {
+            setCurrentWaitlistCount(updatedCount);
+          }
+        },
+      )
+      .subscribe();
+
+    return () => {
+      isMounted = false;
+      supabaseClient.removeChannel(channel);
+    };
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -35,7 +82,7 @@ export default function WaitlistSection() {
       setErrorMessage('Please enter your full name.');
       return;
     }
-    if (!trimmedEmail || !/\S+@\S+\.\S+/.test(trimmedEmail)) {
+    if (!trimmedEmail || !emailPattern.test(trimmedEmail)) {
       setErrorMessage('Please enter a valid email address.');
       return;
     }
@@ -43,33 +90,53 @@ export default function WaitlistSection() {
     setStatus('loading');
 
     try {
-      if (isSupabaseConfigured && supabase) {
-        const { error: insertError } = await supabase
-          .from('waitlist')
-          .insert({
-            full_name: trimmedName,
-            email: trimmedEmail,
-            source: 'website',
-            status: 'waiting',
-          });
+      let registration: RegisterWaitlistResponse = {
+        ok: true,
+        email: trimmedEmail,
+        fullName: trimmedName,
+        queuePosition: currentWaitlistCount + 1,
+      };
 
-        if (insertError && insertError.code !== '23505') {
-          throw insertError;
+      const supabaseClient = supabase;
+
+      if (isSupabaseConfigured && supabaseClient) {
+        const { data, error: registrationError } = await supabaseClient.rpc('register_waitlist_entry', {
+          input_full_name: trimmedName,
+          input_email: trimmedEmail,
+          input_source: 'website',
+        });
+
+        if (registrationError) {
+          throw registrationError;
         }
 
-        const { error: emailError } = await supabase.functions.invoke('send-waitlist-email', {
+        registration = data as RegisterWaitlistResponse;
+
+        if (!registration.ok) {
+          setErrorMessage(registration.message || 'We could not reserve your spot with this email address.');
+          setStatus('idle');
+          return;
+        }
+
+        const { error: emailError } = await supabaseClient.functions.invoke('send-waitlist-email', {
           body: {
-            fullName: trimmedName,
-            email: trimmedEmail,
+            fullName: registration.fullName || trimmedName,
+            email: registration.email || trimmedEmail,
+            queuePosition: registration.queuePosition,
           },
         });
 
         setEmailSent(!emailError);
+        if (emailError) {
+          console.error('Waitlist confirmation email failed:', emailError);
+        }
       }
 
-      setSubmittedEmail(trimmedEmail);
+      const resolvedQueuePosition = registration.queuePosition || currentWaitlistCount + 1;
+      setSubmittedEmail(registration.email || trimmedEmail);
+      setQueuePosition(resolvedQueuePosition);
+      setCurrentWaitlistCount((count) => Math.max(count, resolvedQueuePosition));
       setStatus('success');
-      setCounter(prev => prev + 1);
     } catch (error) {
       console.error('Waitlist signup failed:', error);
       setErrorMessage('We could not reserve your spot right now. Please try again.');
@@ -107,6 +174,11 @@ export default function WaitlistSection() {
                 <p className="text-slate-500 text-sm sm:text-base max-w-xl mx-auto mb-10 leading-relaxed">
                   Join founders, developers, creators, and innovators shaping the future with RELIC. Reserve your spot for private beta access today.
                 </p>
+
+                <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-xs font-semibold text-slate-700">
+                  <Users className="w-4 h-4 text-brand-teal" />
+                  <span>{currentWaitlistCount.toLocaleString()} builders already waiting</span>
+                </div>
 
                 {/* Submit Form */}
                 <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-4">
@@ -192,7 +264,12 @@ export default function WaitlistSection() {
 
                 <div className="bg-teal-50/50 border border-brand-teal/40 rounded-xl px-5 py-3 text-[11px] text-slate-800 font-mono flex items-center gap-2">
                   <Sparkles className="w-4 h-4 text-brand-teal animate-pulse" />
-                  <span>Your Queue Position: #{(counter + 248).toLocaleString()}</span>
+                  <span>Your Queue Position: #{(queuePosition || waitlistBaselineCount).toLocaleString()}</span>
+                </div>
+
+                <div className="mt-3 border border-slate-200 rounded-xl px-5 py-3 text-[11px] text-slate-700 font-mono flex items-center gap-2">
+                  <Users className="w-4 h-4 text-brand-teal" />
+                  <span>Current Waitlist Count: {currentWaitlistCount.toLocaleString()}</span>
                 </div>
 
                 <button
@@ -202,6 +279,7 @@ export default function WaitlistSection() {
                     setEmail('');
                     setSubmittedEmail('');
                     setEmailSent(false);
+                    setQueuePosition(null);
                   }}
                   className="mt-8 text-xs font-semibold text-slate-550 hover:text-slate-800 underline"
                 >

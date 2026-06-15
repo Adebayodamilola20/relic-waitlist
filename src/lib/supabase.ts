@@ -13,6 +13,7 @@ export type WaitlistEntry = {
   id: string;
   full_name: string;
   email: string;
+  waitlist_position?: number | null;
   status: string;
   source: string;
   created_at: string;
